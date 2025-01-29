@@ -27,7 +27,8 @@ int main() {
     b.title("Skip List inserts")
         .unit("uint64_t")
         .warmup(100)
-        .relative(true);
+        .relative(true)
+        .minEpochIterations(1);
     b.performanceCounters(true);
     SkipList slist = SkipList();
     for(int i = 0; i < 3000; i++){
