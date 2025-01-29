@@ -159,15 +159,3 @@ void SkipList::debug_print(){
         std::printf("\n");
     }
 }
-
-int main(){
-    SkipList list = SkipList();
-    for(int i = 30; i > 0; i--){
-        list.insert(i);
-    }
-    std::printf("debugging\n");
-    list.debug_print();
-    list.erase(21);
-    list.debug_print();
-    std::printf("%d\n", list.search(21));
-}
