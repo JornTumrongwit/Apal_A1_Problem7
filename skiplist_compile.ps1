@@ -1,0 +1,1 @@
+g++ -O3 -I ./ -c .\SkipList\SkipList.cpp
