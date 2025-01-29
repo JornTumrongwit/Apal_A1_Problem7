@@ -12,7 +12,6 @@ void SkipList::p_set(float p){
 
 void SkipList::insert(int item){
     //Everytime an item is inserted, that item gets a coin flip. If passes, we let that item get one higher level
-    //FIX THIS LATER
     int levels = 1;
     int rng = rand();
     while (rng < p_help && levels <= cap){
@@ -29,7 +28,6 @@ void SkipList::insert(int item){
     }
 
     Node* currentLeftmost = firstNode;
-    //TODO: debug the prevnode
     Node* prevNode = nullptr;
     //update each level
     while (currentLeftmost != nullptr){
@@ -37,6 +35,10 @@ void SkipList::insert(int item){
             Node* current = currentLeftmost;
             while(current->right != nullptr && current->right->item < item) {
                 current = current->right;
+                if(current->item==item){
+                    //if item is here, just break, everything lower should be here as well
+                    return;
+                }
             }
 
             //make the new node
@@ -65,6 +67,32 @@ void SkipList::insert(int item){
 
 void SkipList::erase(int item){
     //erase that item and adjust each level accordingly
+    Node* currentLeftmost = firstNode;
+    //go down each level
+    while (currentLeftmost != nullptr){
+        Node* current = currentLeftmost;
+        //search until find item
+        while(current->right != nullptr){
+            //if item found, erase
+            if(current->right->item == item){
+                Node* thisItem = current->right;
+                current->right = current->right->right;
+                delete thisItem;
+                break;
+            }
+            current = current->right;
+        }
+        currentLeftmost = currentLeftmost->below;
+    }
+
+    //handling the deletion of empty levels
+    currentLeftmost = firstNode;
+    while (currentLeftmost != nullptr && currentLeftmost->right == nullptr){
+        firstNode = currentLeftmost->below;
+        Node* oldLv = currentLeftmost;
+        delete oldLv;
+        currentLeftmost = firstNode;
+    }
 }
 
 int SkipList::search(int item){
@@ -73,17 +101,14 @@ int SkipList::search(int item){
     Node* current = firstNode;
     while (current != nullptr){
         if(current->right == nullptr) {
-            std::cout << "down\n";
             current = current->below;
             continue;
         }
         if(current->right->item == item) return true;
         else if (current->right->item > item){
-            std::cout << current->right->item << "down\n";
             current = current->below;
         }
         else{
-            std::cout << current->right->item << "right\n";
             current = current->right;
         }
     }
@@ -142,5 +167,7 @@ int main(){
     }
     std::printf("debugging\n");
     list.debug_print();
-    std::printf("%d\n", list.search(31));
+    list.erase(21);
+    list.debug_print();
+    std::printf("%d\n", list.search(21));
 }
