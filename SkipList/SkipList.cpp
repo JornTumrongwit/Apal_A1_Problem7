@@ -29,6 +29,7 @@ void SkipList::insert(int item){
     }
 
     Node* currentLeftmost = firstNode;
+    //TODO: debug the prevnode
     Node* prevNode = nullptr;
     //update each level
     while (currentLeftmost != nullptr){
@@ -67,7 +68,20 @@ void SkipList::erase(int item){
 
 int SkipList::search(int item){
     //traverse the skip list to find the item
-
+    int index = -1;
+    Node* current = firstNode;
+    while (current != nullptr){
+        if(current->right->item == item) return true;
+        else if (current->right->item > item){
+            std::cout << current->right->item << "down\n";
+            current = current->below;
+        }
+        else{
+            std::cout << current->right->item << "right\n";
+            current = current->right;
+        }
+    }
+    return false;
 }
 
 //helper for printing
@@ -122,4 +136,5 @@ int main(){
     }
     std::printf("debugging\n");
     list.debug_print();
+    std::printf("%d\n", list.search(30));
 }
