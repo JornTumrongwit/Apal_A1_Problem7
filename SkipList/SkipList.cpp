@@ -45,10 +45,11 @@ void SkipList::insert(int item){
             
             newNode->level = currentLeftmost->level;
             newNode->right = current->right;
-            newNode->below = prevNode;
 
             //pointing the current node to this new node
             current->right = newNode;
+
+            if(prevNode != nullptr) prevNode->below = newNode;
 
             //set the previous node to this node
             prevNode = newNode;
@@ -71,6 +72,11 @@ int SkipList::search(int item){
     int index = -1;
     Node* current = firstNode;
     while (current != nullptr){
+        if(current->right == nullptr) {
+            std::cout << "down\n";
+            current = current->below;
+            continue;
+        }
         if(current->right->item == item) return true;
         else if (current->right->item > item){
             std::cout << current->right->item << "down\n";
@@ -136,5 +142,5 @@ int main(){
     }
     std::printf("debugging\n");
     list.debug_print();
-    std::printf("%d\n", list.search(30));
+    std::printf("%d\n", list.search(31));
 }
