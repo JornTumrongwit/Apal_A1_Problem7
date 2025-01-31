@@ -1,5 +1,5 @@
 #include "nanobench.h"
-#include "SkipList/SkipList.h"
+#include "../SkipList/SkipList.h"
 
 #include <fstream>
 #include <iostream>

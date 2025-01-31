@@ -28,8 +28,8 @@ void SkipList::insert(int item){
     Node* prevNode = nullptr;
     //update each level
     while (currentLeftmost != nullptr){
+        Node* current = currentLeftmost;
         if(currentLeftmost->level <= levels){
-            Node* current = currentLeftmost;
             while(current->right != nullptr && current->right->item < item) {
                 current = current->right;
                 if(current->item==item){
@@ -54,7 +54,7 @@ void SkipList::insert(int item){
             prevNode = newNode;
         }
         //update working level
-        currentLeftmost = currentLeftmost->below;
+        currentLeftmost = current->below;
         //if(currentLeftmost->level != 1) std::printf("%d test level\n", currentLeftmost->level);
     }
 
