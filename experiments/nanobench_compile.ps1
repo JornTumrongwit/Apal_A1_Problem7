@@ -1,1 +1,0 @@
-g++ -O3 -I ./ -c .\nanobench.cpp
